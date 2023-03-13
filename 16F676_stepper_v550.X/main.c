@@ -140,9 +140,9 @@ void main(void)
      */
     while(1)
     {
-        StepMotor(1019, 4);     /* step about 1/2 a revolution clockwise at 4.096 milliseconds per step (about 4 seconds) */
+        StepMotor(1019, 4);     /* step about 1/4 a revolution clockwise at 4.096 milliseconds per step (about 4 seconds) */
         __delay_ms(500);
-        StepMotor(-1019, 2);    /* step about 1/2 a revolution counterclockwise at 2.048 milliseconds per step (about 2 seconds) */
+        StepMotor(-1019, 2);    /* step about 1/4 a revolution counterclockwise at 2.048 milliseconds per step (about 2 seconds) */
         __delay_ms(250);
     }
 }
