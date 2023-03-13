@@ -1,0 +1,15 @@
+https://www.mouser.com/datasheet/2/758/stepd-01-data-sheet-1143075.pdf
+https://lastminuteengineers.com/28byj48-stepper-motor-arduino-tutorial/
+
+Sequence to Rotate in clockwise direction using half steps
++------------+-----------------------------------------------+
+:   Motor    :                     Step                      :
++   Wire     :-----+-----+-----+-----+-----+-----+-----+-----+
+:   Color    :  1  :  2  :  3  :  4  :  5  :  6  :  7  :  8  :
++------------+-----+-----+-----+-----+-----+-----+-----+-----+
+: Orange PA1 : GND : GND : off : off : off : off : off : GND :
+: Yellow PB1 : off : GND : GND : GND : off : off : off : off :
+: Pink   PA2 : off : off : off : GND : GND : GND : off : off :
+: Blue   PB2 : off : off : off : off : off : GND : GND : GND :
+: Red    COM : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 :
++------------+-----+-----+-----+-----+-----+-----+-----+-----+
