@@ -9,13 +9,13 @@
  * 
  *                              PIC16F676
  *                    +------------:_:------------+
- *           GND -> 1 : VDD                   VSS : 14 <- 5v0
- *               <> 2 : RA5/T1CKI     PGD/AN0/RA0 : 13 <- PGD
- *               <> 3 : RA4/AN3/T1G   PGC/AN1/RA1 : 12 <- PGC
+ *           5v0 -> 1 : VDD                   VSS : 14 <- GND
+ *               <> 2 : RA5/T1CKI     PGD/AN0/RA0 : 13 <- PGD/ADC in 0
+ *               <> 3 : RA4/AN3/T1G   PGC/AN1/RA1 : 12 <- PGC/ADC in 1
  *           VPP -> 4 : RA3/VPP       INT/AN2/RA2 : 11 <> 
  *               <> 5 : RC5               AN4/RC0 : 10 <> Orange PA1
  *               <> 6 : RC4               AN5/RC1 : 9  <> Yellow PB1
- *    PB2   Blue <> 7 : RC3/AN7           AN6 RC2 : 8  <> Pink   PA2
+ *    Blue   PB2 <> 7 : RC3/AN7           AN6 RC2 : 8  <> Pink   PA2
  *                    +---------------------------:
  *                               DIP-14
  * 
@@ -49,14 +49,15 @@ void Init_PIC(void)
     VRCON = 0x00;
 
     ADCON1 = 0x10;      /* set FOSC/8 as ADC clock source */
-    ADCON0 = 0xC0;      /* Right justified, External VREF, select channel 0 and turn off ADC */
+    ADCON0 = 0x80;      /* Right justified, VREF is VDD, select channel 0 and turn off ADC */
     ANSEL  = 0x03;      /* set RA0,RA1 as analog inputs, all others as digital */
     ADCON0bits.ADON = 1;
     ADCON0bits.GO_nDONE = 1;
     
     __delay_ms(500);    /* wait for ICD before making PGC and PGD outputs */
     
-    OPTION_REG = 0xD1;  /* Select FOSC/4 as clock source for TIMER0 and 1:4 prescaler */
+    OPTION_REG = 0x51;  /* Select FOSC/4 as clock source for TIMER0 and 1:4 prescaler, enable pull-ups on PORTA */
+    WPUA = 0xFC;        /* Turn off weak pull-ups on RA0,RA1 */
     TRISA = 0xFF;       /* Set PORTA RA0,RA1,RA2,RA4,RA5 as inputs */
     TRISC = 0xF0;       /* Set PORTC RC0,RC1,RC2,RC3 as outputs */
     PORTC = 0;          /* turn off drivers to stepper motor */
