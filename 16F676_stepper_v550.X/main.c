@@ -11,10 +11,10 @@
  *                    +------------:_:------------+
  *           GND -> 1 : VDD                   VSS : 14 <- 5v0
  *               <> 2 : RA5/T1CKI     PGD/AN0/RA0 : 13 <- PGD
- *               <> 3 : RA4/AN3       PGC/AN1/RA1 : 12 <- PGC
- *           VPP -> 4 : RA3/VPP           AN2/RA2 : 11 <> 
- *               <> 5 : RC5/CPP1          AN4/RC0 : 10 <> Orange PA1
- *               <> 6 : RC4/C2OUT         AN5/RC1 : 9  <> Yellow PB1
+ *               <> 3 : RA4/AN3/T1G   PGC/AN1/RA1 : 12 <- PGC
+ *           VPP -> 4 : RA3/VPP       INT/AN2/RA2 : 11 <> 
+ *               <> 5 : RC5               AN4/RC0 : 10 <> Orange PA1
+ *               <> 6 : RC4               AN5/RC1 : 9  <> Yellow PB1
  *    PB2   Blue <> 7 : RC3/AN7           AN6 RC2 : 8  <> Pink   PA2
  *                    +---------------------------:
  *                               DIP-14
@@ -63,7 +63,7 @@ void Init_PIC(void)
     
     /*
      * TIMER0 is setup to clock from FOSC/4 with a 1:4 prescale. The timer will assert
-     * an overflow event every (prescal * count length). The TIMER0 count length is fixed 
+     * an overflow event every (prescale * count length). The TIMER0 count length is fixed 
      * at 256 counts, so the event is asserted every 1024 clocks. This is 1.024 milliseconds
      * based on a 4MHz system clock.
      */
