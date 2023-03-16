@@ -13,3 +13,6 @@ Sequence to Rotate in clockwise direction using half steps
 : Blue   PB2 : off : off : off : off : off : GND : GND : GND :
 : Red    COM : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 :
 +------------+-----+-----+-----+-----+-----+-----+-----+-----+
+
+https://www.st.com/resource/en/datasheet/uln2001.pdf
+https://www.electronicoscaldas.com/datasheet/ULN2003A-PCB.pdf
