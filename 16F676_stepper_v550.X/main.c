@@ -130,7 +130,7 @@ void StepMotor(int16_t Count, uint8_t Wait)
 }
 
 #define HOME_SW PORTAbits.RA2
-#define HOME_SW_RELEASED (HOME_SW == 1)
+#define HOME_SW_PRESSED  (HOME_SW == 0)
 
 void StepMotorHome(int16_t Count, uint8_t Wait)
 {
@@ -139,7 +139,7 @@ void StepMotorHome(int16_t Count, uint8_t Wait)
     
     do
     {
-        if(HOME_SW_RELEASED) break;     /* exit loop when at home position */
+        if(HOME_SW_PRESSED) break;      /* exit loop when at home position */
         if (Count > 0)
         {
             PORTC = HalfSteps[state];   /* drive stepper to select state */
