@@ -94,10 +94,11 @@ void __interrupt() ISR_Handler(void)
  * : Red    COM : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 : 5v0 :
  * +------------+-----+-----+-----+-----+-----+-----+-----+-----+
  */
+static const uint8_t HalfSteps[8] = {0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08, 0x09};
+
 void StepMotor(int16_t Count, uint8_t Wait)
 {
     static uint8_t state = 0;
-    static const uint8_t HalfSteps[8] = {0x01, 0x03, 0x02, 0x06, 0x04, 0x0C, 0x08, 0x09};
     uint8_t delay;
 
     do
@@ -127,6 +128,7 @@ void StepMotor(int16_t Count, uint8_t Wait)
         }
     } while (Count != 0);
 }
+
 /*
  * Main application
  */
