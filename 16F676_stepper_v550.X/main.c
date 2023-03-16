@@ -12,7 +12,7 @@
  *           5v0 -> 1 : VDD                   VSS : 14 <- GND
  *               <> 2 : RA5/T1CKI     PGD/AN0/RA0 : 13 <- PGD/ADC in 0
  *               <> 3 : RA4/AN3/T1G   PGC/AN1/RA1 : 12 <- PGC/ADC in 1
- *           VPP -> 4 : RA3/VPP       INT/AN2/RA2 : 11 <> 
+ *           VPP -> 4 : RA3/VPP       INT/AN2/RA2 : 11 <> HOME_SW (0=switch pressed)
  *               <> 5 : RC5               AN4/RC0 : 10 <> Orange PA1
  *               <> 6 : RC4               AN5/RC1 : 9  <> Yellow PB1
  *    Blue   PB2 <> 7 : RC3/AN7           AN6 RC2 : 8  <> Pink   PA2
@@ -129,6 +129,42 @@ void StepMotor(int16_t Count, uint8_t Wait)
     } while (Count != 0);
 }
 
+#define HOME_SW PORTAbits.RA2
+#define HOME_SW_RELEASED (HOME_SW == 1)
+
+void StepMotorHome(int16_t Count, uint8_t Wait)
+{
+    static uint8_t state = 0;
+    uint8_t delay;
+    
+    do
+    {
+        if(HOME_SW_RELEASED) break;     /* exit loop when at home position */
+        if (Count > 0)
+        {
+            PORTC = HalfSteps[state];   /* drive stepper to select state */
+            state++;                    /* step one state clockwise */
+            state &= 0x07;              /* keep state within HalfStep table */
+            Count--;                    /* update step count */
+        }
+        else if (Count < 0)
+        {
+            PORTC = HalfSteps[state];  /* drive stepper to select state */ 
+            state--;                   /* step one state counterclockwise */ 
+            state &= 0x07;             /* keep state within HalfStep table */ 
+            Count++;                   /* update step count */ 
+        }
+        /* Wait between steps */
+        if(Wait > 0) 
+        {
+            delay = Wait;
+            do {
+               while(INTCONbits.T0IF == 0) {}
+               INTCONbits.T0IF = 0;
+            } while (--delay > 0);
+        }
+    } while (Count != 0);
+}
 /*
  * Main application
  */
@@ -138,6 +174,7 @@ void main(void)
      * Application initialization
      */
     Init_PIC();
+    StepMotorHome(-4076, 20);   /* step motor counterclockwise one full revolution or until home position is reached */
     /*
      * Application process loop
      */
